@@ -1,10 +1,10 @@
 package com.JavaCrud;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
@@ -18,7 +18,6 @@ public class ConnectDB {
     public Connection dbConnection() {
         try {
             cnx = DriverManager.getConnection(dburl, dbuser, dbpwd);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,7 +33,7 @@ public class ConnectDB {
     }
 
     public void addUser(String name, String lname, String age, String gender, String email, String phone, String password) throws SQLException {
-        if (email.length() > 0 && name.length()>0 && age.length() > 0 && lname.length()>0 && phone.length() > 0 && password.length()>0 && gender.length()>0) {
+        if (email.length() > 0 && name.length() > 0 && age.length() > 0 && lname.length() > 0 && phone.length() > 0 && password.length() > 0 && gender.length() > 0) {
             // Check if email exists in the database
             if (isEmailExists(email)) {
                 JOptionPane.showMessageDialog(null, "Email already exists in the database", "Error", JOptionPane.ERROR_MESSAGE);
@@ -58,5 +57,19 @@ public class ConnectDB {
         } else {
             JOptionPane.showMessageDialog(null, "Fill in all Fields !!!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public ResultSet getUsers() {
+        ResultSet rs = null;
+        try {
+            if (cnx != null) {
+                String query = "SELECT * FROM users";
+                Statement stmt = cnx.createStatement();
+                rs = stmt.executeQuery(query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

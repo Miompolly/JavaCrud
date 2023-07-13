@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -256,5 +257,29 @@ public class JavaCrud extends JFrame {
 			}
 		));
 		scrollPane.setViewportView(table);
+		
+		
+		
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+        try {
+            ConnectDB db = new ConnectDB();
+            db.dbConnection(); 
+   
+            ResultSet rs = db.getUsers();
+            while (rs.next()) {
+                String firstName = rs.getString("FirstName");
+                String lastName = rs.getString("LastName");
+                String age = rs.getString("Age");
+                String gender = rs.getString("Gender");
+                String email = rs.getString("Email");
+                String phone = rs.getString("Phone");
+                String password = rs.getString("Password");
+                model.addRow(new Object[]{firstName, lastName, age, gender, email, phone, password});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
+	
+	
 }
