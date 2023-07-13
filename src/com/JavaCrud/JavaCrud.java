@@ -17,22 +17,25 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+
 public class JavaCrud extends JFrame {
 
 	private JPanel contentPane;
-	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JPasswordField passwordField;
+	private JTextField txtFirst;
+	private JTextField txtLast;
+	private JTextField txtAge;
+	private JTextField txtEmail;
+	private JTextField txtPhone;
+	private JPasswordField pPwd;
 	private JTable table;
+	private JTextField txtGender;
+	String name,lname,age,gender,email,phone,password;
 	/**
 	 * Launch the application.
 	 */
@@ -124,38 +127,39 @@ public class JavaCrud extends JFrame {
 		lblFirstName_1_5.setBounds(29, 343, 155, 36);
 		panel_1_1.add(lblFirstName_1_5);
 		
-		textField = new JTextField();
-		textField.setBounds(183, 57, 227, 29);
-		panel_1_1.add(textField);
-		textField.setColumns(10);
+		txtFirst = new JTextField();
+		txtFirst.setBounds(183, 57, 227, 29);
+		panel_1_1.add(txtFirst);
+		txtFirst.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(183, 109, 227, 29);
-		panel_1_1.add(textField_1);
+		txtLast = new JTextField();
+		txtLast.setColumns(10);
+		txtLast.setBounds(183, 109, 227, 29);
+		panel_1_1.add(txtLast);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(183, 158, 227, 29);
-		panel_1_1.add(textField_2);
+		txtAge = new JTextField();
+		txtAge.setColumns(10);
+		txtAge.setBounds(183, 158, 227, 29);
+		panel_1_1.add(txtAge);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(183, 246, 227, 29);
-		panel_1_1.add(textField_3);
+		txtEmail = new JTextField();
+		txtEmail.setColumns(10);
+		txtEmail.setBounds(183, 246, 227, 29);
+		panel_1_1.add(txtEmail);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(183, 292, 227, 29);
-		panel_1_1.add(textField_4);
+		txtPhone = new JTextField();
+		txtPhone.setColumns(10);
+		txtPhone.setBounds(183, 292, 227, 29);
+		panel_1_1.add(txtPhone);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(183, 343, 227, 29);
-		panel_1_1.add(passwordField);
+		pPwd = new JPasswordField();
+		pPwd.setBounds(183, 343, 227, 29);
+		panel_1_1.add(pPwd);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(183, 204, 227, 29);
-		panel_1_1.add(comboBox);
+		txtGender = new JTextField();
+		txtGender.setColumns(10);
+		txtGender.setBounds(183, 204, 227, 29);
+		panel_1_1.add(txtGender);
 		
 		JPanel panel_1_2 = new JPanel();
 		panel_1_2.setLayout(null);
@@ -168,12 +172,41 @@ public class JavaCrud extends JFrame {
 		btnNewButton.setFont(new Font("Gurajada", Font.BOLD, 34));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(e.getSource()==btnNewButton) {
+					ConnectDB db= new ConnectDB();
+					db.dbConnection();
+					name=txtFirst.getText();
+					lname=txtLast.getText();
+					age=txtAge.getText();
+					gender=txtGender.getText();
+					email=txtEmail.getText();					
+					phone=txtPhone.getText();
+					password=pPwd.getText();
+					try {
+						db.addUser(name,lname,age,gender,email,phone,password);
+					} catch(SQLException e1) {
+						e1.printStackTrace();
+					}
+					
+				}
 			}
 		});
 		btnNewButton.setBounds(27, 12, 144, 39);
 		panel_1_2.add(btnNewButton);
 		
 		JButton btnClear = new JButton("Clear");
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtFirst.setText("");
+				txtLast.setText("");
+				txtAge.setText("");
+				txtGender.setText("");
+				txtEmail.setText("");
+				pPwd.setText("");
+				txtPhone.setText("");
+				
+			}
+		});
 		btnClear.setFont(new Font("Gurajada", Font.BOLD, 34));
 		btnClear.setBounds(239, 12, 144, 39);
 		panel_1_2.add(btnClear);
